@@ -65,21 +65,16 @@ JOIN Employees e ON o.EmployeeID = e.EmployeeID
 */
 
 
-WITH lisCheck AS (SELECT 
-c.Country 
-, o.OrderID 
-, SUM(p.Price * od.Quantity) AS gCheck
+
+SELECT 
+ Country
+ , SUM(p.Price * od.Quantity) AS generalRevenue
+ , MAX(p.Price * od.Quantity) AS maxCheck
+ , MIN(p.Price * od.Quantity) AS minCheck
 FROM Orders o 
 JOIN OrderDetails od ON o.OrderID = od.OrderID 
 JOIN Customers c ON o.CustomerID = c.CustomerID 
 JOIN Products p ON od.ProductID = p.ProductID 
-GROUP BY c.Country, o.OrderID)
-SELECT 
- Country
- , SUM(gCheck) AS generalRevenue
- , MAX(gCheck) AS maxCheck
- , MIN(gCheck) AS minCheck
-FROM lisCheck
 GROUP BY Country
 ORDER BY generalRevenue DESC
 
