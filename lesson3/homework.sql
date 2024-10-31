@@ -56,6 +56,75 @@ FROM expenses
 
 ---------------------------------------------
 
+/*
+Задание: Определите общую прибыль для каждой категории продуктов,
+используя таблицы OrderDetails, Orders и Products. Для расчета прибыли
+умножьте цену продукта на количество, а затем суммируйте результаты по
+категориям.
+*/
+
+SELECT 
+c.CategoryID 
+, c.CategoryName 
+, SUM(od.Quantity * p.Price) AS profit
+FROM Products p 
+JOIN OrderDetails od ON od.ProductID = p.ProductID 
+JOIN Orders o ON o.OrderID = od.OrderID 
+JOIN Categories c ON c.CategoryID = p.CategoryID 
+GROUP BY c.CategoryID 
+
+
+---------------------------------------------
+
+/*
+Задание: Определите количество заказов, размещенных клиентами из различных стран, за
+каждый месяц.
+*/
+
+SELECT 
+c.Country 
+, strftime('%Y-%m', o.OrderDate) AS month_
+, SUM(o.OrderID) AS countOfOrders
+FROM Customers c 
+JOIN Orders o ON c.CustomerID = o.CustomerID 
+GROUP BY month_, c.Country 
+
+
+---------------------------------------------
+
+/*
+Задание: Рассчитайте среднюю продолжительность кредитного срока для
+клиентов по категориям образования.
+*/
+
+SELECT 
+education 
+, AVG(c.credit_term) AS avrCreditTerm
+FROM Clusters c 
+GROUP BY education 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
